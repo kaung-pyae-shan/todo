@@ -1,0 +1,34 @@
+[
+   {
+      "id": "23",
+      "name": "Do Homework",
+      "description": "Lesson 1 to 3",
+      "dueDate": "2023-10-31",
+      "dueTime": "14:00",
+      "isCompleted": true
+   },
+   {
+      "id": "12",
+      "name": "Cook Dinner",
+      "description": "Chicken Stew",
+      "dueDate": "2023-10-31",
+      "dueTime": "14:00",
+      "isCompleted": false
+   },
+   {
+      "id": "45",
+      "name": "Go to Gym",
+      "description": "Upper Body",
+      "dueDate": "2023-10-31",
+      "dueTime": "14:00",
+      "isCompleted": true
+   },
+   {
+      "id": "73",
+      "name": "Meeting",
+      "description": "Meeting with boss",
+      "dueDate": "2023-10-31",
+      "dueTime": "14:00",
+      "isCompleted": false
+   }
+]

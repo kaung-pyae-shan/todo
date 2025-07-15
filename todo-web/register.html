@@ -1,0 +1,63 @@
+<!-- BOOTSTRAP VERSION OF YOUR TAILWIND DASHBOARD DESIGN WITH RESPONSIVE NAVBAR, MODAL FORM, LOGIN AND REGISTER PAGE -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Task Management - Login & Register</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body class="bg-light">
+   <!-- REGISTER PAGE -->
+   <div class="container d-flex justify-content-center align-items-center vh-100">
+      <div class="card shadow-sm p-4 w-100" style="max-width: 400px;">
+         <div class="text-center mb-4">
+            <i class="bi bi-check2-all text-primary " style="font-size: 3rem;"></i>
+            <h4 class="fw-bold">Create Account</h4>
+            <p class="text-muted small">Register to start managing your tasks</p>
+         </div>
+         <form>
+            <div class="mb-3">
+               <label for="register-name" class="form-label">Full Name</label>
+               <input type="text" class="form-control" id="register-name" placeholder="Enter your name" required>
+            </div>
+            <div class="mb-3">
+               <label for="register-email" class="form-label">Email address</label>
+               <input type="email" class="form-control" id="register-email" placeholder="Enter email" required>
+            </div>
+            <div class="mb-3">
+               <label for="register-password" class="form-label">Password</label>
+               <div class="input-group">
+                  <input type="password" class="form-control" id="register-password" placeholder="Create password"
+                     required>
+                  <button class="btn btn-outline-secondary" type="button"
+                     onclick="togglePassword('register-password', this)"><i class="bi bi-eye"></i></button>
+               </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+         </form>
+      </div>
+   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+   <script>
+      function togglePassword(inputId, toggleBtn) {
+         const input = document.getElementById(inputId);
+         const icon = toggleBtn.querySelector('i');
+         if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+         } else {
+            input.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+         }
+      }
+   </script>
+</body>
+
+</html>

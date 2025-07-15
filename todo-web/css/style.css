@@ -1,0 +1,33 @@
+.nav-shadow {
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.content-card {
+   min-height: 70vh;
+   transition: all 0.3s ease;
+}
+
+.tasks-display-area {
+   border: 2px dashed rgba(0, 0, 0, 0.1);
+   border-radius: 8px;
+}
+
+.action-btn {
+   transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+   transform: translateY(3px) translateX(-3px);
+}
+
+.user-details {
+   opacity: 0;
+   max-height: 0;
+   transition: all 0.3s ease;
+   overflow: hidden;
+}
+
+.user-info-area:hover .user-details {
+   opacity: 1;
+   max-height: 100px;
+}
