@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
    loadTasks("today-tasks.html");
 });
 
-
-
 function refreshTasks() {
    const taskList = document.getElementById("taskList");
    exampleTasks.forEach((task) => {
