@@ -2,7 +2,10 @@ export function loadTodayTasks() {
    const content = document.querySelector(".tasks-display-area");
    content.innerHTML = "";
    // fetch("tasks.json")
-   fetch("http://localhost:8080/api/task?id=1")
+   fetch("http://localhost:8080/api/task", {
+      method: "GET",
+      credentials: "include",
+   })
       .then((response) => response.json())
       .then((tasks) => {
          tasks.forEach((task) => {

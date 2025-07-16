@@ -1,11 +1,11 @@
 export function loadPastTasks() {
    const content = document.querySelector(".tasks-display-area");
    content.innerHTML = "";
-   fetch("http://localhost:8080/api/task?id=1")
+   fetch("http://localhost:8080/api/task")
       .then((response) => response.json())
       .then((tasks) => {
          tasks.forEach((task) => {
-            if (task.status == 'COMPLETED') {
+            if (task.status == "COMPLETED") {
                const row = `
                   <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
                      <div class="d-flex">

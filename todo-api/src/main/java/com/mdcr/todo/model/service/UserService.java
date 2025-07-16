@@ -1,9 +1,12 @@
 package com.mdcr.todo.model.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mdcr.todo.exception.UserAlreadyExistsException;
+import com.mdcr.todo.model.dto.UserDto;
 import com.mdcr.todo.model.entity.User;
 import com.mdcr.todo.model.repo.UserRepo;
 
@@ -12,6 +15,14 @@ public class UserService {
 
 	@Autowired
 	private UserRepo userRepo;
+
+	public UserDto getUserById(int id) {
+		Optional<User> user = userRepo.findById(id);
+		if (user.isPresent()) {
+			return new UserDto(user.get().getId(), user.get().getName(), user.get().getEmail());
+		}
+		return null;
+	}
 
 	public User register(User user) {
 		if (usernameExists(user.getEmail())) {
@@ -24,7 +35,11 @@ public class UserService {
 		return userRepo.findByEmail(username) != null;
 	}
 
-	public User login(String email, String password) {
-		return userRepo.findByEmailAndPassword(email, password);
+	public UserDto login(String email, String password) {
+		User user = userRepo.findByEmailAndPassword(email, password);
+		if(user == null) {
+			return null;
+		}
+		return new UserDto(user.getId(), user.getName(), user.getEmail());
 	}
 }

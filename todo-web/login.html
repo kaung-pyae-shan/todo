@@ -19,7 +19,7 @@
             <h4 class="fw-bold">Welcome Back</h4>
             <p class="text-muted small">Login to manage your tasks</p>
          </div>
-         <form>
+         <form id="loginForm">
             <div class="mb-3">
                <label for="login-email" class="form-label">Email address</label>
                <input type="email" class="form-control" id="login-email" placeholder="Enter email" required>
@@ -32,10 +32,10 @@
                      onclick="togglePassword('login-password', this)"><i class="bi bi-eye"></i></button>
                </div>
             </div>
-            <div class="mb-3 form-check">
+            <!-- <div class="mb-3 form-check">
                <input type="checkbox" class="form-check-input" id="remember">
                <label class="form-check-label" for="remember">Remember me</label>
-            </div>
+            </div> -->
             <button type="submit" class="btn btn-primary w-100">Login</button>
          </form>
       </div>
@@ -57,6 +57,7 @@
          }
       }
    </script>
+   <script src="js/login.js"></script>
 </body>
 
 </html>
