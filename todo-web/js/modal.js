@@ -1,5 +1,10 @@
-import { loadTodayTasks } from "./today-tasks";
-import { loadPastTasks } from "./past-tasks";
+import { loadTodayTasks } from "./today-tasks.js";
+import { loadPastTasks } from "./past-tasks.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+   const modalBtn = document.getElementById("modalBtn");
+   modalBtn.addEventListener("click", () => openTaskModal(null));
+});
 
 function openTaskModal(task = null) {
    const modal = new bootstrap.Modal(document.getElementById("taskModal"));
@@ -18,11 +23,12 @@ function openTaskModal(task = null) {
 }
 
 const taskModal = document.getElementById("taskModal");
-const modalTitle = employeeModal.querySelector(".modal-title");
+const modalTitle = taskModal.querySelector(".modal-title");
 const addTaskBtn = document.getElementById("addTaskBtn");
 
-modalSubmitButton.addEventListener("click", () => {
+addTaskBtn.addEventListener("click", () => {
    const action = modalTitle.textContent.includes("Add") ? "add" : "update";
+   console.log(action);
    submitTaskForm(action);
 });
 
@@ -32,17 +38,20 @@ function submitTaskForm(action) {
    const taskData = Object.fromEntries(formData.entries());
    const requestBody = {
       name: taskData.name,
-      email: taskData.description,
+      description: taskData.description,
       dueDate: taskData.dueDate,
       dueTime: taskData.dueTime,
+      status: "PENDING"
    };
    const url =
       action === "add"
          ? "http://localhost:8080/api/task/add"
          : `http://localhost:8080/api/task/update/${taskEditId}`;
    const method = action === "add" ? "POST" : "PUT";
+   console.log(url, method);
    fetch(url, {
       method: method,
+      credentials: "include",
       headers: {
          "Content-Type": "application/json",
       },
@@ -51,7 +60,7 @@ function submitTaskForm(action) {
       .then((response) => response.json())
       .then((data) => {
          console.log("Task saved:", data);
-         document.querySelector(".btn-close").click(); // Close the modal
+         //document.querySelector(".btn-close").click(); // Close the modal
          // Refresh Tasks
          loadTodayTasks();
          loadPastTasks();

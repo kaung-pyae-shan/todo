@@ -1,7 +1,10 @@
 export function loadPastTasks() {
    const content = document.querySelector(".tasks-display-area");
    content.innerHTML = "";
-   fetch("http://localhost:8080/api/task")
+   fetch("http://localhost:8080/api/task", {
+      method: "GET",
+      credentials: "include",
+   })
       .then((response) => response.json())
       .then((tasks) => {
          tasks.forEach((task) => {

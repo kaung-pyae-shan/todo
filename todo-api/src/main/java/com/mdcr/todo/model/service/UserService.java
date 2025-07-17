@@ -16,12 +16,16 @@ public class UserService {
 	@Autowired
 	private UserRepo userRepo;
 
-	public UserDto getUserById(int id) {
+	public UserDto getUserDtoById(int id) {
 		Optional<User> user = userRepo.findById(id);
 		if (user.isPresent()) {
 			return new UserDto(user.get().getId(), user.get().getName(), user.get().getEmail());
 		}
 		return null;
+	}
+	
+	public Optional<User> getUserById(int id) {
+		return userRepo.findById(id);
 	}
 
 	public User register(User user) {

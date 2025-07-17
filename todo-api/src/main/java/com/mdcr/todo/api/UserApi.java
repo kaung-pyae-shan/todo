@@ -63,7 +63,7 @@ public class UserApi {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	    }
 
-	    UserDto user = userService.getUserById(userId);
+	    UserDto user = userService.getUserDtoById(userId);
 	    
 	    if(user != null) {
 	    	return ResponseEntity.ok(user);
