@@ -1,5 +1,6 @@
 import { loadPastTasks } from "./past-tasks.js";
 import { loadTodayTasks } from "./today-tasks.js";
+import { loadFutureTasks } from "./future-tasks.js";
 
 document.addEventListener("DOMContentLoaded", () => {
    const viewButtons = document.querySelectorAll("[data-view]");
@@ -59,6 +60,7 @@ function loadTasks(page) {
                loadPastTasks();
                break;
             case "future-tasks.html":
+               loadFutureTasks();
                break;
          }
       })

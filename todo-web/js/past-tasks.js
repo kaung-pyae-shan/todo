@@ -1,7 +1,7 @@
 export function loadPastTasks() {
    const content = document.querySelector(".tasks-display-area");
    content.innerHTML = "";
-   fetch("http://localhost:8080/api/task", {
+   fetch("http://localhost:8080/api/task/past", {
       method: "GET",
       credentials: "include",
    })

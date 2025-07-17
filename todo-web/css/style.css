@@ -18,6 +18,7 @@
 
 .action-btn:hover {
    transform: translateY(3px) translateX(-3px);
+   transition: all 0.2s ease;
 }
 
 .user-details {

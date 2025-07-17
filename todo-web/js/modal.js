@@ -1,6 +1,3 @@
-import { loadTodayTasks } from "./today-tasks.js";
-import { loadPastTasks } from "./past-tasks.js";
-
 document.addEventListener("DOMContentLoaded", () => {
    const modalBtn = document.getElementById("modalBtn");
    modalBtn.addEventListener("click", () => openTaskModal(null));
@@ -41,7 +38,7 @@ function submitTaskForm(action) {
       description: taskData.description,
       dueDate: taskData.dueDate,
       dueTime: taskData.dueTime,
-      status: "PENDING"
+      status: "PENDING",
    };
    const url =
       action === "add"
@@ -60,10 +57,9 @@ function submitTaskForm(action) {
       .then((response) => response.json())
       .then((data) => {
          console.log("Task saved:", data);
-         //document.querySelector(".btn-close").click(); // Close the modal
+         document.querySelector("#modalCloseBtn").click(); // Close the modal
          // Refresh Tasks
-         loadTodayTasks();
-         loadPastTasks();
+         document.querySelector('button[data-view="today-tasks.html"]').click();
       })
       .catch((error) => console.error("Error saving task:", error));
 }

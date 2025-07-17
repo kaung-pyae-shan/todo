@@ -79,25 +79,25 @@
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title" id="taskModalLabel">Add New Task</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" id="modalCloseBtn"></button>
             </div>
             <form id="taskForm">
                <div class="modal-body">
                   <input type="hidden" id="task-id">
                   <div class="mb-3">
-                     <label for="taskName" class="form-label">Task Name</label>
+                     <label for="task-name" class="form-label">Task Name</label>
                      <input type="text" class="form-control" id="task-name" name="name" required>
                   </div>
                   <div class="mb-3">
-                     <label for="taskDescription" class="form-label">Description</label>
+                     <label for="task-desc" class="form-label">Description</label>
                      <textarea class="form-control" id="task-desc" rows="3" name="description" required></textarea>
                   </div>
                   <div class="mb-3">
-                     <label for="dueDate" class="form-label">Due Date</label>
+                     <label for="due-date" class="form-label">Due Date</label>
                      <input type="date" class="form-control" id="due-date" name="dueDate" required>
                   </div>
                   <div class="mb-3">
-                     <label for="dueTime" class="form-label">Due Time</label>
+                     <label for="due-time" class="form-label">Due Time</label>
                      <input type="time" class="form-control" id="due-time" name="dueTime" required>
                   </div>
                </div>
@@ -111,7 +111,7 @@
    </div>
 
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-   <script type="module" src="js/modal.js"></script>
+   <script src="js/modal.js"></script>
    <script type="module" src="js/script.js"></script>
 </body>
 
