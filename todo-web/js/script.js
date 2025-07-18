@@ -3,6 +3,25 @@ import { loadTodayTasks } from "./today-tasks.js";
 import { loadFutureTasks } from "./future-tasks.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+   fetch("http://localhost:8080/api/auth/me")
+      .then(res => {
+         if (!res.ok) {
+            alert("Please Log in first.");
+            window.location.href = "/login.html";
+         }
+         return res.json();
+      })
+      .then(data => {
+         document.querySelector("#loggedInName").textContent = data.name;
+         document.querySelector("#loggedInEmail ").textContent = data.email;
+      })
+      .catch(err => {
+         console.error("Error fetching user info:", err);
+         // Optionally redirect to login page
+      });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
    const viewButtons = document.querySelectorAll("[data-view]");
 
    viewButtons.forEach((btn) => {

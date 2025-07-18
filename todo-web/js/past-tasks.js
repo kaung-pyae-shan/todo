@@ -1,3 +1,5 @@
+import { openTaskModal } from "./modal.js";
+
 export function loadPastTasks() {
    const content = document.querySelector(".tasks-display-area");
    content.innerHTML = "";
@@ -8,48 +10,111 @@ export function loadPastTasks() {
       .then((response) => response.json())
       .then((tasks) => {
          tasks.forEach((task) => {
-            if (task.status == "COMPLETED") {
-               const row = `
-                  <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
-                     <div class="d-flex">
-                        <input class="form-check-input me-3 mt-1" type="checkbox" checked>
-                        <div>
-                           <p class="d-none">${task.id}</p>
-                           <h5 class="mb-1 fw-semibold text-success text-decoration-line-through">${task.name}</h5>
-                           <p class="mb-1 text-muted">${task.description}</p>
-                           <small class="text-muted">Due: ${task.dueDate} ${task.dueTime}</small>
-                        </div>
-                     </div>
-                     <div>
-                        <button class="btn btn-link text-primary">Edit</button>
-                        <button class="btn btn-link text-danger">Delete</button>
-                     </div>
+            const row = `
+            <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3 task-row" data-id="${task.id}">
+               <div class="d-flex">
+                  <input class="form-check-input me-3 mt-1 task-status-checkbox" type="checkbox" data-id="${task.id}"  ${task.status === "COMPLETED" ? "checked" : ""}>
+                  <div>
+                     <h5 class="mb-1 fw-semibold ${task.status === "COMPLETED" ? "text-decoration-line-through text-success" : "text-danger"}">${task.name}</h5>
+                     <p class="mb-1 text-muted">${task.description}</p>
+                     <small class="${task.status === "COMPLETED" ? "text-muted" : "text-primary"}">Due: ${task.dueDate} ${task.dueTime}</small>
                   </div>
-                  `;
-               content.innerHTML += row;
-            } else {
-               const row = `
-                  <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-3">
-                     <div class="d-flex">
-                        <input class="form-check-input me-3 mt-1" type="checkbox">
-                        <div>
-                           <p class="d-none">${task.id}</p>
-                           <h5 class="mb-1 fw-semibold text-danger">${task.name}</h5>
-                           <p class="mb-1 text-muted">${task.description}</p>
-                           <small class="text-muted">Due: ${task.dueDate} ${task.dueTime}</small>
-                        </div>
-                     </div>
-                     <div>
-                        <button class="btn btn-link text-primary">Edit</button>
-                        <button class="btn btn-link text-danger">Delete</button>
-                     </div>
-                  </div>
-                  `;
-               content.innerHTML += row;
-            }
+               </div>
+               <div>
+                  <button class="btn btn-link text-primary btn-edit" data-id="${task.id}">Edit</button>
+                  <button class="btn btn-link text-danger btn-delete" data-id="${task.id}">Delete</button>
+               </div>
+            </div>
+            `;
+            content.innerHTML += row;
          });
+         setListenersForEditAndDelete();
+         setListenerForCheckbox();
       })
       .catch((error) => {
          console.log("Error Fetching Past Tasks: ", error);
       });
+}
+
+function setListenersForEditAndDelete() {
+   document.querySelectorAll(".btn-edit").forEach((button) => {
+      button.addEventListener("click", () => {
+         const taskId = button.getAttribute("data-id");
+
+         // Fetch that task and fill modal
+         fetch(`http://localhost:8080/api/task/${taskId}`, {
+            method: "GET",
+            credentials: "include",
+         })
+            .then((res) => {
+               if (!res.ok) throw new Error("Task not found");
+               return res.json();
+            })
+            .then((task) => {
+               openTaskModal(task);
+            })
+            .catch((err) => {
+               console.error("Failed to load task", err);
+               alert("Could not load task");
+            });
+      });
+   });
+
+   document.querySelectorAll(".btn-delete").forEach((button) => {
+      button.addEventListener("click", () => {
+         const taskId = button.getAttribute("data-id");
+
+         // Confirm before deleting
+         if (!confirm("Are you sure you want to delete this task?")) {
+            return;
+         }
+
+         // Perform DELETE request
+         fetch(`http://localhost:8080/api/task/delete/${taskId}`, {
+            method: "DELETE",
+            credentials: "include",
+         })
+            .then((res) => {
+               if (res.status === 204) {
+                  // Successfully deleted
+                  loadPastTasks(); // Reload task list
+               } else {
+                  alert("Failed to delete task");
+               }
+            })
+            .catch((err) => {
+               console.error("Delete error:", err);
+               alert("Error deleting task");
+            });
+      });
+   });
+}
+
+function setListenerForCheckbox() {
+   document.querySelectorAll(".task-status-checkbox").forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+         const taskId = checkbox.getAttribute("data-id");
+         const newStatus = checkbox.checked ? "COMPLETED" : "PENDING";
+
+         fetch(`http://localhost:8080/api/task/status/${taskId}`, {
+            method: "PUT",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ status: newStatus }),
+         })
+            .then((res) => {
+               if (!res.ok) throw new Error("Failed to update status");
+               return res.json();
+            })
+            .then(() => {
+               loadPastTasks();
+            })
+            .catch((err) => {
+               console.error("Status update failed:", err);
+               alert("Could not update task status.");
+            });
+      });
+   });
 }
