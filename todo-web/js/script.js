@@ -1,21 +1,23 @@
 import { loadPastTasks } from "./past-tasks.js";
 import { loadTodayTasks } from "./today-tasks.js";
 import { loadFutureTasks } from "./future-tasks.js";
+import { logout } from "./logout.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-   fetch("http://localhost:8080/api/auth/me")
-      .then(res => {
+   fetch("http://localhost:8080/api/auth/me", {
+      credentials: "include",
+   })
+      .then((res) => {
          if (!res.ok) {
-            alert("Please Log in first.");
             window.location.href = "/login.html";
          }
          return res.json();
       })
-      .then(data => {
+      .then((data) => {
          document.querySelector("#loggedInName").textContent = data.name;
          document.querySelector("#loggedInEmail ").textContent = data.email;
       })
-      .catch(err => {
+      .catch((err) => {
          console.error("Error fetching user info:", err);
          // Optionally redirect to login page
       });
@@ -42,29 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
    loadTasks("today-tasks.html");
 });
 
-function refreshTasks() {
-   const taskList = document.getElementById("taskList");
-   exampleTasks.forEach((task) => {
-      const taskItem = document.createElement("div");
-      taskItem.className =
-         "list-group-item d-flex justify-content-between align-items-start";
-      taskItem.innerHTML = `
-        <div>
-          <h6 class="fw-semibold mb-1">${task.name}</h6>
-          <p class="mb-1">${task.description}</p>
-          <small class="text-muted">Due: ${task.dueDate} at ${
-         task.dueTime
-      }</small>
-        </div>
-        <div>
-          <button class="btn btn-sm btn-link text-primary" onclick='openTaskModal(${JSON.stringify(
-             task
-          )})'>Edit</button>
-        </div>
-      `;
-      taskList.appendChild(taskItem);
+document.addEventListener("DOMContentLoaded", () => {
+   const logoutBtn = document.querySelector("#logoutBtn");
+   logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      logout();
    });
-}
+});
 
 function loadTasks(page) {
    fetch(page)
