@@ -7,7 +7,27 @@ export function loadPastTasks() {
       method: "GET",
       credentials: "include",
    })
-      .then((response) => response.json())
+      .then((response) => {
+         if (response.status === 204) {
+               // If no tasks, show the empty state
+               content.innerHTML = `
+               <div class="d-flex align-items-center justify-content-center h-100">
+                  <div class="text-center">
+                     <img
+                        src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/650a9500-01ed-4501-b09b-1622b0c6568d.png"
+                        alt="Illustration of an empty state with simple line drawing of a clipboard and pencil"
+                        class="mx-auto d-block opacity-50"
+                        style="height: 8rem; width: 8rem;"
+                     >
+                     <h3 class="mt-4 fs-5 fw-medium text-dark">There are no tasks yet!</h3>
+                     <p class="mt-2 fs-6 text-muted">Add new to manage your daily taks.</p>
+                  </div>
+               </div>
+            `;
+               return; // Exit the function early
+            }
+            return response.json();
+      })
       .then((tasks) => {
          tasks.forEach((task) => {
             const row = `
